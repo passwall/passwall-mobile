@@ -24,7 +24,7 @@ function LoginStackScreen() {
 export default function RootStackScreen() {
   return (
     <RootStack.Navigator
-      initialRouteName="Home"
+      initialRouteName="LoginStack"
       screenOptions={{
         headerShown: false,
       }}>

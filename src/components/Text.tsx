@@ -5,6 +5,7 @@ import { Colors, Fonts } from '@/styles';
 type Props = {
   variant?: keyof typeof Fonts.size;
   color?: keyof typeof Colors;
+  bold?: boolean;
 } & TextProps;
 
 export default function PasswallText({
@@ -12,6 +13,7 @@ export default function PasswallText({
   style,
   variant = 'normal',
   color = 'White',
+  bold = false,
   ...rest
 }: Props) {
   return (
@@ -20,6 +22,7 @@ export default function PasswallText({
         styles.container,
         styles[variant],
         { color: Colors[color] },
+        bold && styles.bold,
         style,
       ]}
       {...rest}>
@@ -29,6 +32,8 @@ export default function PasswallText({
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    fontFamily: 'Metropolis-Regular',
+  },
   ...Fonts.style,
 });

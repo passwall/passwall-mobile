@@ -1,11 +1,12 @@
-import { Page, Text } from '@/components';
+import { Page } from '@/components';
 import { Colors } from '@/styles';
 import React from 'react';
+import * as Icons from '@/components/icons';
 
 export default function Index() {
   return (
     <Page bgColor={Colors.Black}>
-      <Text>hey</Text>
+      <Icons.PassWallText />
     </Page>
   );
 }
