@@ -1,13 +1,8 @@
 import React from 'react';
-import { SafeAreaView } from 'react-native';
 import Bootstrap from '@/bootstrap';
 
 const App = () => {
-  return (
-    <SafeAreaView>
-      <Bootstrap />
-    </SafeAreaView>
-  );
+  return <Bootstrap />;
 };
 
 export default App;
