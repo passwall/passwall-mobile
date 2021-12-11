@@ -1,7 +1,7 @@
 import React from 'react';
-import {Text, View} from 'react-native';
-import {SparklesIcon} from 'react-native-heroicons/outline';
-import {PasswallLogo} from '@/components/icons';
+import { Text, View } from 'react-native';
+import { SparklesIcon } from 'react-native-heroicons/outline';
+import { PasswallLogo } from '@/components/icons';
 
 export default function Bootstrap() {
   return (

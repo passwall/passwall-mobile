@@ -1,4 +1,4 @@
-const template = (variables, {tpl}) => {
+const template = (variables, { tpl }) => {
   return tpl`
 ${variables.imports};
 
