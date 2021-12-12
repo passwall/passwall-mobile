@@ -4,6 +4,8 @@ Official mobile application for Passwall
 <img width="443" alt="resim" src="https://user-images.githubusercontent.com/22038798/145725977-4ac52556-0204-4994-903d-ef53be2c0cac.png">
 
 
+🚧 Work in progress 🚧
+
 ## How to install
 
 1. Clone this repo 
@@ -19,3 +21,6 @@ Official mobile application for Passwall
   ```bash
   $ yarn android
   ```
+
+
+🚧 Work in progress 🚧
