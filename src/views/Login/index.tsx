@@ -43,68 +43,70 @@ const DOTS = ICONS.map((icon, index) => {
   };
 });
 
-const AnimatedIcon = ({
-  toX,
-  toY,
-  icon,
-  focus,
-}: {
-  toX: number;
-  toY: number;
-  icon: typeof ICONS[number];
-  focus: boolean;
-}) => {
-  const x = useSharedValue(0);
-  const y = useSharedValue(0);
-  const opacity = useSharedValue(0.4);
-  const scale = useSharedValue(1);
-  const Icon = icon;
+const AnimatedIcon = React.memo(
+  ({
+    toX,
+    toY,
+    icon,
+    focus,
+  }: {
+    toX: number;
+    toY: number;
+    icon: typeof ICONS[number];
+    focus: boolean;
+  }) => {
+    const x = useSharedValue(0);
+    const y = useSharedValue(0);
+    const opacity = useSharedValue(0.4);
+    const scale = useSharedValue(1);
+    const Icon = icon;
 
-  useEffect(() => {
-    if (focus) {
-      opacity.value = withTiming(1);
-      scale.value = withTiming(1.2);
-    } else {
-      opacity.value = withTiming(0.4);
-      scale.value = withTiming(1);
-    }
-  }, [focus]);
+    useEffect(() => {
+      if (focus) {
+        opacity.value = withTiming(1);
+        scale.value = withTiming(1.2);
+      } else {
+        opacity.value = withTiming(0.4);
+        scale.value = withTiming(1);
+      }
+    }, [focus]);
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      x.value = withTiming(toX);
-      y.value = withTiming(toY);
-    }, 300);
-    return () => clearTimeout(timeout);
-  }, [toX, toY]);
+    useEffect(() => {
+      const timeout = setTimeout(() => {
+        x.value = withTiming(toX);
+        y.value = withTiming(toY);
+      }, 300);
+      return () => clearTimeout(timeout);
+    }, [toX, toY]);
 
-  const animStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          translateX: x.value,
-        },
-        {
-          translateY: y.value,
-        },
-        {
-          scale: scale.value,
-        },
-      ],
-      opacity: opacity.value,
-    };
-  });
+    const animStyle = useAnimatedStyle(() => {
+      return {
+        transform: [
+          {
+            translateX: x.value,
+          },
+          {
+            translateY: y.value,
+          },
+          {
+            scale: scale.value,
+          },
+        ],
+        opacity: opacity.value,
+      };
+    });
 
-  return (
-    <Animated.View style={[styles.icon, animStyle]}>
-      <Icon size={32} color={Colors.Primary} />
-    </Animated.View>
-  );
-};
+    return (
+      <Animated.View style={[styles.icon, animStyle]}>
+        <Icon size={32} color={Colors.Primary} />
+      </Animated.View>
+    );
+  },
+);
 
 export default function Index() {
   const [focusIconIndex, setFocusIconIndex] = useState(
-    Math.floor(Math.random() * 8),
+    Math.floor(Math.random() * ICONS.length),
   );
   useEffect(() => {
     const interval = setInterval(() => {
