@@ -11,9 +11,11 @@ type Props = {
   variant?: 'primary' | 'secondary' | 'outline';
 } & TouchableOpacityProps;
 
-function Button({ children, style, variant = 'primary' }: Props) {
+function Button({ children, style, variant = 'primary', ...rest }: Props) {
   return (
-    <TouchableOpacity style={[styles.container, styles[variant], style]}>
+    <TouchableOpacity
+      style={[styles.container, styles[variant], style]}
+      {...rest}>
       {children}
     </TouchableOpacity>
   );

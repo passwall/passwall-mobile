@@ -1,15 +1,26 @@
 import type { NavigatorScreenParams } from '@react-navigation/native';
 
 declare global {
-  type RootStack = {
-    LoginStack: NavigatorScreenParams<LoginStack>;
+  type RootStackProps = {
+    LoginRegisterStack: NavigatorScreenParams<LoginAndRegisterStackProps>;
     Home: undefined;
   };
 
-  type LoginStack = {
+  type LoginAndRegisterStackProps = {
     Main: undefined;
-    Login: undefined;
-    Register: undefined;
+    Login: NavigatorScreenParams<LoginStackProps>;
+    Register: NavigatorScreenParams<RegisterStackProps>;
+  };
+
+  type LoginStackProps = {
+    Server: undefined;
+    Email: undefined;
+    Password: undefined;
+  };
+
+  type RegisterStackProps = {
+    Email: undefined;
+    Password: undefined;
   };
 }
 

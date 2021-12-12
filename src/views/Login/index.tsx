@@ -19,6 +19,7 @@ import Animated, {
 import { Page, Text, Button, PasswallWithText } from '@/components';
 import { Colors, Spacing } from '@/styles';
 import { rs } from '@/styles/helpers';
+import useAppNavigation from '@/utils/hooks/useAppNavigation';
 
 const RADIUS = rs(130);
 
@@ -108,6 +109,8 @@ export default function Index() {
   const [focusIconIndex, setFocusIconIndex] = useState(
     Math.floor(Math.random() * ICONS.length),
   );
+  const navigation = useAppNavigation();
+
   useEffect(() => {
     const interval = setInterval(() => {
       setFocusIconIndex(Math.floor(Math.random() * 8));
@@ -131,10 +134,24 @@ export default function Index() {
         <PasswallWithText />
       </View>
       <View style={styles.footer}>
-        <Button>
+        <Button
+          onPress={() =>
+            navigation.navigate('LoginRegisterStack', {
+              screen: 'Login',
+              params: { screen: 'Server' },
+            })
+          }>
           <Text bold>Login</Text>
         </Button>
-        <Button variant="outline" style={{ marginTop: Spacing.small }}>
+        <Button
+          onPress={() => {
+            navigation.navigate('LoginRegisterStack', {
+              screen: 'Register',
+              params: { screen: 'Email' },
+            });
+          }}
+          variant="outline"
+          style={{ marginTop: Spacing.small }}>
           <Text bold>Create an Account</Text>
         </Button>
       </View>
