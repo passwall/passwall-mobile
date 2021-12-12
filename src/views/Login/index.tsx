@@ -22,6 +22,27 @@ import { rs } from '@/styles/helpers';
 
 const RADIUS = rs(130);
 
+const ICONS = [
+  ShieldCheckIcon,
+  LocationMarkerIcon,
+  ClipboardCheckIcon,
+  KeyIcon,
+  DocumentReportIcon,
+  CreditCardIcon,
+  LockClosedIcon,
+  UserIcon,
+];
+
+const DOTS = ICONS.map((icon, index) => {
+  const angle = index * (360 / ICONS.length);
+
+  return {
+    x: RADIUS * Math.cos((Math.PI * angle) / 180),
+    y: RADIUS * Math.sin((Math.PI * angle) / 180),
+    icon,
+  };
+});
+
 const AnimatedIcon = ({
   toX,
   toY,
@@ -30,7 +51,7 @@ const AnimatedIcon = ({
 }: {
   toX: number;
   toY: number;
-  icon: typeof ShieldCheckIcon;
+  icon: typeof ICONS[number];
   focus: boolean;
 }) => {
   const x = useSharedValue(0);
@@ -95,54 +116,15 @@ export default function Index() {
   return (
     <Page style={styles.container} bgColor={Colors.Black}>
       <View style={styles.content}>
-        <AnimatedIcon
-          toX={RADIUS}
-          toY={0}
-          icon={ClipboardCheckIcon}
-          focus={focusIconIndex === 0}
-        />
-        <AnimatedIcon
-          toX={(RADIUS * Math.sqrt(2)) / 2}
-          toY={(RADIUS * Math.sqrt(2)) / 2}
-          icon={KeyIcon}
-          focus={focusIconIndex === 1}
-        />
-        <AnimatedIcon
-          toX={0}
-          toY={RADIUS}
-          icon={DocumentReportIcon}
-          focus={focusIconIndex === 2}
-        />
-        <AnimatedIcon
-          toX={-(RADIUS * Math.sqrt(2)) / 2}
-          toY={(RADIUS * Math.sqrt(2)) / 2}
-          icon={CreditCardIcon}
-          focus={focusIconIndex === 3}
-        />
-        <AnimatedIcon
-          toX={-RADIUS}
-          toY={0}
-          icon={LockClosedIcon}
-          focus={focusIconIndex === 4}
-        />
-        <AnimatedIcon
-          toX={-(RADIUS * Math.sqrt(2)) / 2}
-          toY={-(RADIUS * Math.sqrt(2)) / 2}
-          icon={UserIcon}
-          focus={focusIconIndex === 5}
-        />
-        <AnimatedIcon
-          toX={0}
-          toY={-RADIUS}
-          icon={ShieldCheckIcon}
-          focus={focusIconIndex === 6}
-        />
-        <AnimatedIcon
-          toX={(RADIUS * Math.sqrt(2)) / 2}
-          toY={-(RADIUS * Math.sqrt(2)) / 2}
-          icon={LocationMarkerIcon}
-          focus={focusIconIndex === 7}
-        />
+        {DOTS.map((dot, index) => (
+          <AnimatedIcon
+            key={index}
+            toX={dot.x}
+            toY={dot.y}
+            icon={dot.icon}
+            focus={focusIconIndex === index}
+          />
+        ))}
 
         <PasswallWithText />
       </View>
