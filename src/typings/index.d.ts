@@ -1,9 +1,9 @@
 import type { NavigatorScreenParams } from '@react-navigation/native';
-
+import store from '@/store';
 declare global {
   type RootStackProps = {
-    LoginRegisterStack: NavigatorScreenParams<LoginAndRegisterStackProps>;
     Home: undefined;
+    LoginRegisterStack: NavigatorScreenParams<LoginAndRegisterStackProps>;
   };
 
   type LoginAndRegisterStackProps = {
@@ -22,6 +22,12 @@ declare global {
     Email: undefined;
     Password: undefined;
   };
+
+  // Store
+  // eslint-disable-next-line no-undef
+  type RootStore = ReturnType<typeof store.getState>;
+  // eslint-disable-next-line no-undef
+  type AppDispatch = typeof store.dispatch;
 }
 
 export {};
