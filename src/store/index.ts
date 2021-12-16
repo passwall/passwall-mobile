@@ -11,9 +11,10 @@ import {
 } from 'redux-persist';
 import MMKVStorage from 'react-native-mmkv-storage';
 import FlipperRedux from 'redux-flipper';
-const storage = new MMKVStorage.Loader().initialize();
 
 import userSlice from './user';
+
+const storage = new MMKVStorage.Loader().initialize();
 
 const rootReducer = combineReducers({
   user: persistReducer(

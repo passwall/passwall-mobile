@@ -7,6 +7,7 @@ interface IUserState {
 const initialState: IUserState = {
   name: '',
 };
+
 const userSlice = createSlice({
   name: 'user',
   initialState,

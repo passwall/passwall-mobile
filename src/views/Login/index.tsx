@@ -20,6 +20,7 @@ import { Page, Text, Button, PasswallWithText } from '@/components';
 import { Colors, Spacing } from '@/styles';
 import { rs } from '@/styles/helpers';
 import useAppNavigation from '@/utils/hooks/useAppNavigation';
+import useStatusBar from '@/utils/hooks/useStatusbar';
 
 const RADIUS = rs(130);
 
@@ -106,6 +107,8 @@ const AnimatedIcon = React.memo(
 );
 
 export default function Index() {
+  useStatusBar('light-content', true);
+
   const [focusIconIndex, setFocusIconIndex] = useState(
     Math.floor(Math.random() * ICONS.length),
   );

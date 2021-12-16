@@ -11,6 +11,7 @@ import HomeScreen from '@/views/Home';
 import LoginMainScreen from '@/views/Login';
 import LoginScreen from '@/views/Login/Login';
 import RegisterScreen from '@/views/Login/Register';
+import { StatusBar } from 'react-native';
 
 function LoginStackScreen() {
   return (
@@ -52,16 +53,19 @@ function LoginAndRegisterStackScreen() {
 
 export default function RootStackScreen() {
   return (
-    <RootStack.Navigator
-      initialRouteName="LoginRegisterStack"
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <RootStack.Screen name="Home" component={HomeScreen} />
-      <RootStack.Screen
-        name="LoginRegisterStack"
-        component={LoginAndRegisterStackScreen}
-      />
-    </RootStack.Navigator>
+    <>
+      <StatusBar translucent backgroundColor="transparent" />
+      <RootStack.Navigator
+        initialRouteName="LoginRegisterStack"
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <RootStack.Screen name="Home" component={HomeScreen} />
+        <RootStack.Screen
+          name="LoginRegisterStack"
+          component={LoginAndRegisterStackScreen}
+        />
+      </RootStack.Navigator>
+    </>
   );
 }
