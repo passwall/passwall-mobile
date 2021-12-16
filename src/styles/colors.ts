@@ -32,6 +32,7 @@ export default {
   White10: ColorAlpha(ColorWhite, 0.1),
   White20: ColorAlpha(ColorWhite, 0.2),
   White30: ColorAlpha(ColorWhite, 0.3),
+  White50: ColorAlpha(ColorWhite, 0.5),
   White60: ColorAlpha(ColorWhite, 0.6),
 
   Primary: ColorPrimary,

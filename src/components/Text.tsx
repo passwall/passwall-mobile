@@ -6,6 +6,7 @@ type Props = {
   variant?: keyof typeof Fonts.size;
   color?: keyof typeof Colors;
   bold?: boolean;
+  fontFamily?: keyof typeof Fonts.family;
 } & TextProps;
 
 export default function PasswallText({
@@ -14,6 +15,7 @@ export default function PasswallText({
   variant = 'normal',
   color = 'White',
   bold = false,
+  fontFamily = 'Metropolis',
   ...rest
 }: Props) {
   return (
@@ -22,6 +24,7 @@ export default function PasswallText({
         styles.container,
         styles[variant],
         { color: Colors[color] },
+        { fontFamily: Fonts.family[fontFamily] },
         bold && styles.bold,
         style,
       ]}

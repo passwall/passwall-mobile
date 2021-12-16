@@ -54,4 +54,5 @@ const style = StyleSheet.create({
 export default {
   size,
   style,
+  family: { Metropolis: 'Metropolis-Regular', Inter: 'Inter-Regular' },
 };
