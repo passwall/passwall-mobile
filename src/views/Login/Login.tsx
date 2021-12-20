@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Button, MasterInput, Page, Text } from '@/components';
 import { Colors, Spacing } from '@/styles';
 import { Keyboard, Platform, StyleSheet } from 'react-native';
@@ -9,12 +9,28 @@ import Animated, {
 } from 'react-native-reanimated';
 import { ArrowRightIcon } from 'react-native-heroicons/solid';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ArrowLeftIcon } from 'react-native-heroicons/solid';
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import useAppNavigation from '@/utils/hooks/useAppNavigation';
+
+type FormData = {
+  server: string;
+};
 
 export default function Index() {
-  const [text, setText] = useState('');
   const { bottom } = useSafeAreaInsets();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+  const navigation = useAppNavigation();
 
   const buttonBottom = useSharedValue(0);
+
+  const onPress: SubmitHandler<FormData> = data => {
+    console.log(data);
+  };
 
   const animButtonStyle = useAnimatedStyle(() => {
     return {
@@ -39,18 +55,37 @@ export default function Index() {
 
   return (
     <Page style={styles.container} bgColor={Colors.Black}>
-      <Text variant="h4" color="Secondary" bold>
+      <Button onPress={navigation.goBack} variant="outline" size={40}>
+        <ArrowLeftIcon color={Colors.White} />
+      </Button>
+      <Text
+        variant="h4"
+        color="Secondary"
+        style={{ marginTop: Spacing.normal }}
+        bold>
         LOGIN
       </Text>
       <Text variant="h1" bold>
         {'PassWall\nServer'}
       </Text>
-      <MasterInput
-        value={text}
-        onChangeText={setText}
-        autoFocus
-        placeholder="https://www.passwall.io"
+      <Controller
+        name="server"
+        control={control}
+        rules={{
+          required: "Server can't be empty",
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <MasterInput
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            autoFocus
+            placeholder="https://www.passwall.io"
+            error={errors.server}
+          />
+        )}
       />
+
       <Animated.View
         style={[
           styles.btnWrapper,
@@ -60,7 +95,7 @@ export default function Index() {
           },
           animButtonStyle,
         ]}>
-        <Button>
+        <Button onPress={handleSubmit(onPress)}>
           <ArrowRightIcon color={Colors.White} />
         </Button>
       </Animated.View>

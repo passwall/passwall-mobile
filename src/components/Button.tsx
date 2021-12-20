@@ -9,12 +9,24 @@ import {
 
 type Props = {
   variant?: 'primary' | 'secondary' | 'outline';
+  size?: number;
 } & TouchableOpacityProps;
 
-function Button({ children, style, variant = 'primary', ...rest }: Props) {
+function Button({
+  children,
+  style,
+  variant = 'primary',
+  size,
+  ...rest
+}: Props) {
   return (
     <TouchableOpacity
-      style={[styles.container, styles[variant], style]}
+      style={[
+        styles.container,
+        styles[variant],
+        size ? { width: rs(size), height: rs(size) } : undefined,
+        style,
+      ]}
       {...rest}>
       {children}
     </TouchableOpacity>

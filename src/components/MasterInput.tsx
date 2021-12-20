@@ -14,14 +14,18 @@ import Animated, {
   useAnimatedStyle,
   useDerivedValue,
   withTiming,
+  FadeInUp,
+  FadeOutUp,
 } from 'react-native-reanimated';
 import { EyeIcon, EyeOffIcon } from 'react-native-heroicons/solid';
 import { rs } from '@/styles/helpers';
 import useLayout from '@/utils/hooks/useLayout';
+import { FieldError } from 'react-hook-form';
 
 type Props = {
   containerStyle?: ViewStyle;
   hintText?: string;
+  error?: FieldError;
 } & TextInputProps;
 
 const ICON_SIZE = rs(24);
@@ -31,6 +35,7 @@ function MasterInput({
   hintText,
   secureTextEntry,
   value,
+  error,
   ...rest
 }: Props) {
   const [secure, setSecure] = useState(secureTextEntry);
@@ -48,14 +53,19 @@ function MasterInput({
   }, [value]);
 
   const lineAnimStyle = useAnimatedStyle(() => {
+    if (!error) {
+      return {
+        backgroundColor: interpolateColor(
+          animateValue.value,
+          [0, 100],
+          [Colors.White60, Colors.Primary],
+        ),
+      };
+    }
     return {
-      backgroundColor: interpolateColor(
-        animateValue.value,
-        [0, 100],
-        [Colors.White60, Colors.Primary],
-      ),
+      backgroundColor: Colors.Danger,
     };
-  }, [animateValue]);
+  }, [animateValue, error]);
 
   return (
     <View style={[styles.container, containerStyle]}>
@@ -83,6 +93,17 @@ function MasterInput({
           {hintText}
         </Text>
       )}
+      {error && (
+        <Animated.View entering={FadeInUp} exiting={FadeOutUp}>
+          <Text
+            fontFamily="Inter"
+            variant="mini"
+            style={styles.error}
+            color="White">
+            {error.message}
+          </Text>
+        </Animated.View>
+      )}
     </View>
   );
 }
@@ -100,12 +121,15 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.family.Inter,
   },
   line: {
-    backgroundColor: Colors.White,
+    backgroundColor: Colors.White60,
     width: '100%',
     height: 2,
     borderRadius: 8,
   },
-
+  error: {
+    marginTop: Spacing.small,
+    color: Colors.Danger,
+  },
   icon: {
     position: 'absolute',
     right: 0,
