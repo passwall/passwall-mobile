@@ -139,18 +139,16 @@ export default function Index() {
       <View style={styles.footer}>
         <Button
           onPress={() =>
-            navigation.navigate('LoginRegisterStack', {
-              screen: 'Login',
-              params: { screen: 'Server' },
+            navigation.navigate('Login', {
+              screen: 'Server',
             })
           }>
           <Text bold>Login</Text>
         </Button>
         <Button
           onPress={() => {
-            navigation.navigate('LoginRegisterStack', {
-              screen: 'Register',
-              params: { screen: 'Email' },
+            navigation.navigate('Register', {
+              screen: 'Email',
             });
           }}
           variant="outline"

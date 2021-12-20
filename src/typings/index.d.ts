@@ -3,7 +3,9 @@ import store from '@/store';
 declare global {
   type RootStackProps = {
     Home: undefined;
-    LoginRegisterStack: NavigatorScreenParams<LoginAndRegisterStackProps>;
+    Inital: undefined;
+    Login: NavigatorScreenParams<LoginStackProps>;
+    Register: NavigatorScreenParams<RegisterStackProps>;
   };
 
   type LoginAndRegisterStackProps = {

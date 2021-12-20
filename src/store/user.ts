@@ -1,19 +1,30 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { DEFAULT_PASSWALL_URL } from '@/utils/constants';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface IUserState {
-  name: string;
+  serverUrl: string;
+  email: string;
+  masterPassword: string;
 }
 
 const initialState: IUserState = {
-  name: '',
+  serverUrl: DEFAULT_PASSWALL_URL,
+  email: '',
+  masterPassword: '',
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setName: (state, action) => {
-      state.name = action.payload;
+    setServerUrl(state, action: PayloadAction<string>) {
+      state.serverUrl = action.payload;
+    },
+    setEmail(state, action: PayloadAction<string>) {
+      state.email = action.payload;
+    },
+    setMasterPassword(state, action: PayloadAction<string>) {
+      state.masterPassword = action.payload;
     },
   },
 });

@@ -17,6 +17,7 @@ function Button({
   style,
   variant = 'primary',
   size,
+  disabled,
   ...rest
 }: Props) {
   return (
@@ -24,9 +25,11 @@ function Button({
       style={[
         styles.container,
         styles[variant],
+        disabled && styles.disabled,
         size ? { width: rs(size), height: rs(size) } : undefined,
         style,
       ]}
+      disabled={disabled}
       {...rest}>
       {children}
     </TouchableOpacity>
@@ -48,6 +51,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.Secondary,
   },
   outline: { backgroundColor: 'transparent' },
+  disabled: {
+    opacity: 0.5,
+  },
 });
 
 export default React.memo(Button);
