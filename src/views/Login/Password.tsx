@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react';
 import { Button, MasterInput, Page, Text } from '@/components';
 import { Colors, Spacing } from '@/styles';
-import { Keyboard, Platform, StyleSheet } from 'react-native';
+import {
+  ActivityIndicator,
+  Keyboard,
+  Platform,
+  StyleSheet,
+} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -28,15 +33,21 @@ export default function Index() {
   const buttonBottom = useSharedValue(0);
   const dispatch = useAppDispatch();
   const email = useAppSelector(state => state.user.email);
+  const loading = useAppSelector(state => state.user.loading);
 
   const {
     control,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<FormData>();
 
   const onPress: SubmitHandler<FormData> = data => {
-    dispatch(login({ master_password: data.password, email }));
+    dispatch(login({ master_password: data.password, email }))
+      .unwrap()
+      .catch(e =>
+        setError('password', { message: e.message }, { shouldFocus: true }),
+      );
   };
 
   const animButtonStyle = useAnimatedStyle(() => {
@@ -99,8 +110,15 @@ export default function Index() {
           animButtonStyle,
         ]}>
         <Text>Forgot your password?</Text>
-        <Button style={styles.btn} onPress={handleSubmit(onPress)}>
-          <ArrowRightIcon color={Colors.White} />
+        <Button
+          disabled={loading}
+          style={styles.btn}
+          onPress={handleSubmit(onPress)}>
+          {loading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <ArrowRightIcon color={Colors.White} />
+          )}
         </Button>
       </Animated.View>
     </Page>

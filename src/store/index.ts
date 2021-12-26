@@ -22,6 +22,7 @@ const rootReducer = combineReducers({
     {
       key: 'user',
       storage,
+      blacklist: ['loading'],
     },
     userSlice.reducer,
   ),

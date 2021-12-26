@@ -3,6 +3,7 @@ import AuthService, { LoginPayload } from '@/api/services/Auth';
 import { DEFAULT_PASSWALL_URL } from '@/utils/constants';
 import CryptoUtils from '@/utils/crypto';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 
 interface IUserState {
   serverUrl: string;
@@ -26,15 +27,19 @@ const initialState: IUserState = {
 
 export const login = createAsyncThunk(
   'user/login',
-  async (payload: LoginPayload) => {
+  async (payload: LoginPayload, thunkAPi) => {
     payload.master_password = CryptoUtils.sha256Encrypt(
       payload.master_password,
     );
-
-    return {
-      master_password: payload.master_password,
-      ...(await AuthService.login(payload)),
-    };
+    try {
+      const data = {
+        master_password: payload.master_password,
+        ...(await AuthService.login(payload)),
+      };
+      return data;
+    } catch (error) {
+      return thunkAPi.rejectWithValue((error as AxiosError).response?.data);
+    }
   },
 );
 
