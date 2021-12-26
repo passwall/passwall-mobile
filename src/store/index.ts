@@ -12,7 +12,7 @@ import {
 import MMKVStorage from 'react-native-mmkv-storage';
 import FlipperRedux from 'redux-flipper';
 
-import userSlice from './user';
+import userSlice from './user.slice';
 
 const storage = new MMKVStorage.Loader().initialize();
 

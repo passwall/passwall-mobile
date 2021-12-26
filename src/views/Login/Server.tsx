@@ -18,7 +18,7 @@ import { ArrowLeftIcon } from 'react-native-heroicons/solid';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import useAppNavigation from '@/utils/hooks/useAppNavigation';
 import { useAppDispatch, useAppSelector } from '@/utils/hooks/useStore';
-import { actions } from '@/store/user';
+import { actions } from '@/store/user.slice';
 import { VALIDATE_URL_REGEX } from '@/utils/constants';
 
 import { checkUrl } from '@/api';

@@ -1,5 +1,5 @@
 import { Colors, Fonts, Spacing } from '@/styles';
-import React, { memo, useMemo, useState } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -66,6 +66,8 @@ function MasterInput({
       backgroundColor: Colors.Danger,
     };
   }, [animateValue, error]);
+
+  useEffect(() => () => setSecure(false), []);
 
   return (
     <View style={[styles.container, containerStyle]}>

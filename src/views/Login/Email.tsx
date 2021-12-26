@@ -16,7 +16,7 @@ import useAppNavigation from '@/utils/hooks/useAppNavigation';
 
 import { VALIDATE_EMAIL_REGEX } from '@/utils/constants';
 import { useAppDispatch } from '@/utils/hooks/useStore';
-import { actions } from '@/store/user';
+import { actions } from '@/store/user.slice';
 
 type FormData = {
   email: string;

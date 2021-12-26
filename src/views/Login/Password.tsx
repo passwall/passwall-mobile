@@ -14,12 +14,12 @@ import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 
 import useAppNavigation from '@/utils/hooks/useAppNavigation';
 
-import { VALIDATE_EMAIL_REGEX } from '@/utils/constants';
 import { useAppDispatch } from '@/utils/hooks/useStore';
-import { actions } from '@/store/user';
+import { actions } from '@/store/user.slice';
+import { rs } from '@/styles/helpers';
 
 type FormData = {
-  email: string;
+  password: string;
 };
 
 export default function Index() {
@@ -35,7 +35,7 @@ export default function Index() {
   } = useForm<FormData>();
 
   const onPress: SubmitHandler<FormData> = data => {
-    dispatch(actions.setEmail(data.email));
+    dispatch(actions.setMasterPassword(data.password));
   };
 
   const animButtonStyle = useAnimatedStyle(() => {
@@ -66,17 +66,13 @@ export default function Index() {
       </Button>
 
       <Text variant="h1" bold style={{ marginVertical: Spacing.large }}>
-        {'E-Mail\nAddress'}
+        {'Master\nPassword'}
       </Text>
       <Controller
-        name="email"
+        name="password"
         control={control}
         rules={{
-          required: 'E-Mail is required',
-          pattern: {
-            value: VALIDATE_EMAIL_REGEX,
-            message: 'Please enter a valid email address',
-          },
+          required: 'Password is required',
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <MasterInput
@@ -85,23 +81,24 @@ export default function Index() {
             onBlur={onBlur}
             defaultValue={value}
             autoFocus
-            placeholder="your@email.com"
-            keyboardType="email-address"
-            error={errors.email}
+            secureTextEntry
+            placeholder="Your Password"
+            error={errors.password}
           />
         )}
       />
 
       <Animated.View
         style={[
-          styles.btnWrapper,
+          styles.footer,
           {
             paddingBottom:
               bottom + (Platform.OS === 'android' ? Spacing.normal : 0),
           },
           animButtonStyle,
         ]}>
-        <Button onPress={handleSubmit(onPress)}>
+        <Text>Forgot your password?</Text>
+        <Button style={styles.btn} onPress={handleSubmit(onPress)}>
           <ArrowRightIcon color={Colors.White} />
         </Button>
       </Animated.View>
@@ -113,8 +110,14 @@ const styles = StyleSheet.create({
   container: {
     padding: Spacing.small,
   },
-  btnWrapper: {
-    alignSelf: 'flex-end',
+  footer: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     right: Spacing.normal,
+  },
+  btn: {
+    width: rs(56),
   },
 });
