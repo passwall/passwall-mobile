@@ -32,7 +32,7 @@ export default function Index() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormData>({ defaultValues: { email: 'ooruc471@yandex.com' } });
 
   const onPress: SubmitHandler<FormData> = data => {
     dispatch(actions.setEmail(data.email));

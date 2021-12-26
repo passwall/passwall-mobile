@@ -14,8 +14,8 @@ import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 
 import useAppNavigation from '@/utils/hooks/useAppNavigation';
 
-import { useAppDispatch } from '@/utils/hooks/useStore';
-import { actions } from '@/store/user.slice';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks/useStore';
+import { login } from '@/store/user.slice';
 import { rs } from '@/styles/helpers';
 
 type FormData = {
@@ -27,6 +27,7 @@ export default function Index() {
   const navigation = useAppNavigation();
   const buttonBottom = useSharedValue(0);
   const dispatch = useAppDispatch();
+  const email = useAppSelector(state => state.user.email);
 
   const {
     control,
@@ -35,7 +36,7 @@ export default function Index() {
   } = useForm<FormData>();
 
   const onPress: SubmitHandler<FormData> = data => {
-    dispatch(actions.setMasterPassword(data.password));
+    dispatch(login({ master_password: data.password, email }));
   };
 
   const animButtonStyle = useAnimatedStyle(() => {
