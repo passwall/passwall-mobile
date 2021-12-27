@@ -1,12 +1,14 @@
-import { Page } from '@/components';
-import { Colors } from '@/styles';
 import React from 'react';
-import * as Icons from '@/components/icons';
+
+import { useAppSelector } from '@/utils/hooks/useStore';
+import { Page, Text } from '@/components';
+import { Colors } from '@/styles';
 
 export default function Index() {
+  const user = useAppSelector(state => state.user.user);
   return (
     <Page bgColor={Colors.Black}>
-      <Icons.PassWallText />
+      <Text color="White">{JSON.stringify(user, null, 2)}</Text>
     </Page>
   );
 }

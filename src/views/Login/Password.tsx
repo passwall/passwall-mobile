@@ -45,6 +45,7 @@ export default function Index() {
   const onPress: SubmitHandler<FormData> = data => {
     dispatch(login({ master_password: data.password, email }))
       .unwrap()
+      .then(() => navigation.navigate('Home'))
       .catch(e =>
         setError('password', { message: e.message }, { shouldFocus: true }),
       );

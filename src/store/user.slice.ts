@@ -5,6 +5,18 @@ import CryptoUtils from '@/utils/crypto';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
+export interface User {
+  cancel_url: string;
+  email: string;
+  email_verified_at: string;
+  id: number;
+  name: string;
+  next_bill_date: string;
+  role: string;
+  status: string;
+  type: string;
+  update_url: string;
+}
 interface IUserState {
   serverUrl: string;
   email: string;
@@ -13,6 +25,7 @@ interface IUserState {
   transmission_key: string;
   master_hash: string;
   loading: boolean;
+  user: User | null;
 }
 
 const initialState: IUserState = {
@@ -23,6 +36,7 @@ const initialState: IUserState = {
   transmission_key: '',
   master_hash: '',
   loading: false,
+  user: null,
 };
 
 export const login = createAsyncThunk(
@@ -62,7 +76,7 @@ const userSlice = createSlice({
         transmission_key,
         secret,
         master_password,
-        ...rest
+        ...user
       } = action.payload;
       state.access_token = access_token;
       state.refresh_token = refresh_token;
@@ -74,7 +88,7 @@ const userSlice = createSlice({
       CryptoUtils.transmissionKey = state.transmission_key;
 
       client.defaults.headers.common.Authorization = `Bearer ${access_token}`;
-      console.log(rest);
+      state.user = user;
       state.loading = false;
     });
 
