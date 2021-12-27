@@ -125,8 +125,7 @@ const userSlice = createSlice({
 
     // refresh side effects
     builder.addCase(refresh.fulfilled, (state, action) => {
-      const { access_token, refresh_token, transmission_key, ...user } =
-        action.payload;
+      const { access_token, refresh_token, transmission_key } = action.payload;
       state.access_token = access_token;
       state.refresh_token = refresh_token;
       state.transmission_key = transmission_key.substring(0, 32);
@@ -134,7 +133,7 @@ const userSlice = createSlice({
       CryptoUtils.transmissionKey = state.transmission_key;
 
       client.defaults.headers.common.Authorization = `Bearer ${access_token}`;
-      state.user = { ...state.user, ...user }; // merge old user with new user
+
       state.loading = false;
     });
 
