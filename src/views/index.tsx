@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import {
   ShieldCheckIcon,
   ClipboardCheckIcon,
@@ -21,6 +21,9 @@ import { Colors, Spacing } from '@/styles';
 import { rs } from '@/styles/helpers';
 import useAppNavigation from '@/utils/hooks/useAppNavigation';
 import useStatusBar from '@/utils/hooks/useStatusbar';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks/useStore';
+import { useFocusEffect } from '@react-navigation/native';
+import { refresh } from '@/store/user.slice';
 
 const RADIUS = rs(130);
 
@@ -108,6 +111,22 @@ const AnimatedIcon = React.memo(
 
 export default function Index() {
   useStatusBar('light-content', true);
+  const dispatch = useAppDispatch();
+  const loading = useAppSelector(state => state.user.loading);
+
+  // Refresh tokens
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(refresh())
+        .unwrap()
+        .then(() => {
+          navigation.navigate('Home');
+        })
+        .catch(() => {
+          // Do nothing
+        });
+    }, []),
+  );
 
   const [focusIconIndex, setFocusIconIndex] = useState(
     Math.floor(Math.random() * ICONS.length),
@@ -143,7 +162,11 @@ export default function Index() {
               screen: 'Server',
             })
           }>
-          <Text bold>Login</Text>
+          {loading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Text bold>Login</Text>
+          )}
         </Button>
         <Button
           onPress={() => {

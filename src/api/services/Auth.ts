@@ -13,6 +13,10 @@ type LoginResponse = {
   secret: string;
 } & User;
 
+export type RefreshPayload = {
+  refresh_token: string;
+};
+
 export default class AuthService {
   static async login(payload: LoginPayload) {
     const { data } = await client.post<LoginResponse>('/auth/signin', payload);
@@ -21,10 +25,12 @@ export default class AuthService {
   }
 
   static async check(payload: {}) {
-    return client.post('/auth/check', payload);
+    const { data } = await client.post('/auth/check', payload);
+    return data;
   }
 
-  static async refresh(payload: {}) {
-    return client.post('/auth/refresh', payload);
+  static async refresh(payload: RefreshPayload) {
+    const { data } = await client.post<LoginResponse>('/auth/refresh', payload);
+    return data;
   }
 }

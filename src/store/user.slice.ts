@@ -41,7 +41,7 @@ const initialState: IUserState = {
 
 export const login = createAsyncThunk(
   'user/login',
-  async (payload: LoginPayload, thunkAPi) => {
+  async (payload: LoginPayload, { rejectWithValue }) => {
     payload.master_password = CryptoUtils.sha256Encrypt(
       payload.master_password,
     );
@@ -52,7 +52,21 @@ export const login = createAsyncThunk(
       };
       return data;
     } catch (error) {
-      return thunkAPi.rejectWithValue((error as AxiosError).response?.data);
+      return rejectWithValue((error as AxiosError).response?.data);
+    }
+  },
+);
+
+export const refresh = createAsyncThunk(
+  'user/refresh',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const token = (getState() as RootStore).user.refresh_token;
+
+      const data = await AuthService.refresh({ refresh_token: token });
+      return data;
+    } catch (error) {
+      return rejectWithValue((error as AxiosError).response?.data);
     }
   },
 );
@@ -67,8 +81,16 @@ const userSlice = createSlice({
     setEmail(state, action: PayloadAction<string>) {
       state.email = action.payload;
     },
+    logOut(state) {
+      state.access_token = '';
+      state.refresh_token = '';
+      state.transmission_key = '';
+      state.master_hash = '';
+      state.user = null;
+    },
   },
   extraReducers: builder => {
+    // login side effects
     builder.addCase(login.fulfilled, (state, action) => {
       const {
         access_token,
@@ -98,6 +120,29 @@ const userSlice = createSlice({
     });
 
     builder.addCase(login.pending, state => {
+      state.loading = true;
+    });
+
+    // refresh side effects
+    builder.addCase(refresh.fulfilled, (state, action) => {
+      const { access_token, refresh_token, transmission_key, ...user } =
+        action.payload;
+      state.access_token = access_token;
+      state.refresh_token = refresh_token;
+      state.transmission_key = transmission_key.substring(0, 32);
+
+      CryptoUtils.transmissionKey = state.transmission_key;
+
+      client.defaults.headers.common.Authorization = `Bearer ${access_token}`;
+      state.user = { ...state.user, ...user }; // merge old user with new user
+      state.loading = false;
+    });
+
+    builder.addCase(refresh.rejected, state => {
+      state.loading = false;
+    });
+
+    builder.addCase(refresh.pending, state => {
       state.loading = true;
     });
   },
