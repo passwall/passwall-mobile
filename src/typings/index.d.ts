@@ -2,10 +2,17 @@ import type { NavigatorScreenParams } from '@react-navigation/native';
 import store from '@/store';
 declare global {
   type RootStackProps = {
-    Home: undefined;
+    Home: NavigatorScreenParams<HomeStackProps>;
     Inital: undefined;
     Login: NavigatorScreenParams<LoginStackProps>;
     Register: NavigatorScreenParams<RegisterStackProps>;
+  };
+
+  type HomeStackProps = {
+    Main: undefined;
+    Search: undefined;
+    Favorite: undefined;
+    Settings: undefined;
   };
 
   type LoginAndRegisterStackProps = {

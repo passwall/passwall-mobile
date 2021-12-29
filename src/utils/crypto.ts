@@ -93,7 +93,7 @@ export default class CryptoUtils {
   }
 
   static decryptFields(
-    data: Record<string, string>,
+    data: Record<string, any>,
     keyList: string[],
     encryptKey = this.encryptKey,
   ) {

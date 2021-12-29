@@ -1,12 +1,18 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const RootStack = createNativeStackNavigator<RootStackProps>();
 
 const LoginStack = createNativeStackNavigator<LoginStackProps>();
 const RegisterStack = createNativeStackNavigator<RegisterStackProps>();
+const Tab = createBottomTabNavigator<HomeStackProps>();
 
-import HomeScreen from '@/views/Home';
+import MainScreen from '@/views/Home/Main';
+import SearchScreen from '@/views/Home/Search';
+import SettingsScreen from '@/views/Home/Settings';
+import FavoriteScreen from '@/views/Home/Favorite';
+
 import InitalScreen from '@/views';
 
 /* Logins */
@@ -16,6 +22,22 @@ import LoginPasswordScreen from '@/views/Login/Password';
 
 import RegisterScreen from '@/views/Register';
 import { StatusBar } from 'react-native';
+import { Tabbar } from '@/components';
+
+const TabNavigationScreen = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      tabBar={props => <Tabbar {...props} />}>
+      <Tab.Screen name="Main" component={MainScreen} />
+      <Tab.Screen name="Search" component={SearchScreen} />
+      <Tab.Screen name="Favorite" component={FavoriteScreen} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
+    </Tab.Navigator>
+  );
+};
 
 function LoginStackScreen() {
   return (
@@ -49,7 +71,7 @@ export default function RootStackScreen() {
           headerShown: false,
         }}>
         <RootStack.Screen name="Inital" component={InitalScreen} />
-        <RootStack.Screen name="Home" component={HomeScreen} />
+        <RootStack.Screen name="Home" component={TabNavigationScreen} />
         <RootStack.Screen name="Login" component={LoginStackScreen} />
         <RootStack.Screen name="Register" component={RegisterStackScreen} />
       </RootStack.Navigator>
